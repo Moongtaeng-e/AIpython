@@ -177,4 +177,4 @@ while True:
         break
     else:
         print("동물 그림을 다시 출력합니다.")
-        animal_print
+        animal_print()
