@@ -1,16 +1,38 @@
-# myif 반복문 2개 프로그램 과제
+from rich.console import Console
+from rich.panel import Panel
+from rich.text import Text
+from rich.style import Style
+from rich import print
+from rich.prompt import Prompt, IntPrompt
+from rich.table import Table
+from rich.layout import Layout
 
-def character_print(): 
-    print("그림 출력 프로그램")
-    print("==================")
-    print("1. 히틀러")
-    print("2. 심영")
-    print("3. 케인")
-    print("==================")
-    n = int(input("선택: "))
-# 만약에 1을 입력하면 1번 캐릭터 출력
-    if n == 1:
-     print("""히틀러
+console = Console()
+
+def character_print():
+    # Create a stylish header
+    console.print("\n[bold magenta]그림 출력 프로그램[/bold magenta]", justify="center")
+    
+    # Create a table for menu options
+    table = Table(show_header=False, box=None, expand=True, border_style="cyan")
+    table.add_column("ID", style="green", justify="center", width=5)
+    table.add_column("Character", style="yellow", justify="left")
+    
+    # Add menu items
+    table.add_row("1", "히틀러")
+    table.add_row("2", "심영")
+    table.add_row("3", "케인")
+    table.add_row("0", "종료")
+    
+    # Display menu with a panel
+    console.print(Panel(table, border_style="cyan", title="[bold cyan]캐릭터 선택[/bold cyan]", title_align="center"))
+    
+    # Get user choice with styled prompt
+    choice = IntPrompt.ask("[bold green]선택[/bold green]")
+    
+    # Display the selected character with appropriate styling
+    if choice == 1:
+        art_text = """히틀러
          ****++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*++*************************************************###%
          *+++====================================================================================================++++++++++++++++++++++++++++++++++++++***##
          *+++====================================================================================================+=++++++++++++++++++++++++++++++++++++***##
@@ -56,10 +78,11 @@ def character_print():
          **+++++++++================+*%%%%%%%%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%@@@@@@@@@@@@@#+++++++++++++++++++++++++++++++++++++*******************###
          **+++++++++++=++===========+#%%%%%%#%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%@@@@@@@@@@@@@#*+++++++++++++++++++++++++++++*++++++********************###
          **************************%%%%%%%%%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#**********************************########################%%
-         """)
-# 만약에 2를 입력하면 2번 캐릭터 출력
-    elif n == 2:
-     print("""심영
+         """
+        title = "히틀러"
+        color = "red"
+    elif choice == 2:
+        art_text = """심영
          -------------------------------------------------------**%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%*---
          ---------------------------------------------------===--+%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%+
          -------------------------------------------------=++***++#%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -107,10 +130,11 @@ def character_print():
          ============================--==---=+*##%#*+++**++++++++++++**###%%%%#*+=+*#%%@%%%##**+==#+=========
          ========------------------------------------==+*+=+++-=+*########*++==-==------==========+#=========
          --------------==-----------------------------------==----=======-===========-----------===++========
-         """)
-# 3을 입력하면 3번 캐릭터 출력
-    elif n == 3:
-     print("""케인
+         """
+        title = "심영"
+        color = "blue"
+    elif choice == 3:
+        art_text = """케인
          ---------------------------------------------------------------*%%%#**###%@@@@%*---------------------------------========================
          ------------------------------------------------------------+%@@@@@@%%###%%@%%%@@#+-----------------------------=========================
          -----------------------------------------------------------#@@@@@@@@@@%###%#***%%@@%+--------------------------==========================
@@ -153,28 +177,46 @@ def character_print():
          +++++++++++++++++++++***************%%####***++++#@@%=-=======+++==+++=============--=+++++++++++*+*********%##*+==--==+*****************
          ++++++++++++++++++*****#######******@@@@@@@@@*++===*@@@%**+++++++*****++=====--==-.:=+#####**+++*+***********##*+==--==+*****************
          +++++++++++++++*****########%%%*****%@@@@@@#@@@@#+===*@@@@@@@@@@@@@@@@@@@@@@@%##++=++#%%#######**************##**==---=+*****************
-         """)
-# 잘못 입력하면 잘못 입력했다고 출력
+         """
+        title = "케인"
+        color = "green"
+    elif choice == 0:
+        return False
     else:
-     print("잘못 입력했습니다.")
- 
-# 동물 그림 출력 프로그램이 총 5번 반복 실행될 수 있게 만드시오.
-# 위 프로그램을 완성한 사람은 프로그램이 계속(무한)반복하게 하고
-# 만약에 0을 입력하면 종료 되는 프로그램을 만드시오.
- 
-# 프로그램을 5번 반복 실행
-for i in range(5):
-     print(f"--- {i+1}번째 캐릭터 그림 출력 ---")
-     # 그림 출력 함수 호출 (예: animal_print())
-     character_print()
- 
-# 프로그램을 계속 반복 실행하고, 0 입력 시 종료
-while True:
-    # 만약에 0이면 break
-     n = int(input("선택(1~3) 종료(0): "))
-     if n == 0:
-         print("프로그램을 종료합니다.")
-         break
-     else:
-         print("캐릭터 그림을 다시 출력합니다.")
-         character_print()
+        console.print("[bold red]잘못 입력했습니다.[/bold red]")
+        return True
+    
+    # Display the ASCII art in a panel with color
+    console.print(Panel.fit(
+        Text(art_text, style=Style(color=color)),
+        title=f"[bold {color}]{title}[/bold {color}]",
+        border_style=color
+    ))
+    
+    return True
+
+def main():
+    console.clear()
+    
+    # Display a welcome banner
+    welcome_text = Text("ASCII 아트 캐릭터 뷰어", style="bold white on blue")
+    console.print(Panel(welcome_text, border_style="blue", expand=False), justify="center")
+    
+    # First run with for loop (5 times)
+    console.print("\n[bold cyan]프로그램이 5번 반복 실행됩니다.[/bold cyan]", justify="center")
+    for i in range(5):
+        console.print(f"\n[bold yellow]--- {i+1}번째 캐릭터 그림 출력 ---[/bold yellow]", justify="center")
+        character_print()
+    
+    # Then run continuously until user chooses to exit
+    console.print("\n[bold cyan]이제 프로그램이 무한 반복됩니다. 0을 입력하여 종료할 수 있습니다.[/bold cyan]", justify="center")
+    while True:
+        continue_running = character_print()
+        if not continue_running:
+            break
+    
+    # Goodbye message
+    console.print("[bold green]프로그램을 종료합니다. 감사합니다![/bold green]", justify="center")
+
+if __name__ == "__main__":
+    main()
