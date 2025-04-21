@@ -20,15 +20,15 @@ image_label = tk.Label(window)
 image_label.pack(padx=10, pady=10)
 
 # 강아지 버튼 생성
-dog_button = tk.Button(window, text="강아지", command=lambda: show_image("dog.png"))
+dog_button = tk.Button(window, text="강아지", command=lambda: show_image("dog.jpg"))
 dog_button.pack(pady=5)
 
 # 고양이 버튼 생성
-cat_button = tk.Button(window, text="고양이", command=lambda: show_image("cat.png"))
+cat_button = tk.Button(window, text="고양이", command=lambda: show_image("cat.jpg"))
 cat_button.pack(pady=5)
 
 # 토끼 버튼 생성
-rabbit_button = tk.Button(window, text="토끼", command=lambda: show_image("rabbit.png"))
+rabbit_button = tk.Button(window, text="토끼", command=lambda: show_image("rabbit.jpg"))
 rabbit_button.pack(pady=5)
 
 # 메인 루프 실행
